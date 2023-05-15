@@ -14,6 +14,8 @@ import UserDashboard from './pages/UserDashboard';
 import Pembayaran from './pages/Pembayaran';
 import AdminDashboard from './pages/adminDashboard';
 import Pembukuan from './pages/Pembukuan';
+import EventPage from './pages/EventPage';
+import DetailEvent from './pages/DetailEvent';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
           <Route path='/pembayaran/1' element={<Pembayaran/>}/>
           <Route path='/admin/' element={<AdminDashboard/>}/>
           <Route path='/admin/pembukuan' element={<Pembukuan/>}/>
+          <Route path='/admin/event' element={<EventPage/>}/>
+          <Route path='/admin/event/1' element={<DetailEvent/>}/>
         </Routes>
       </GlobalProvider>
     </BrowserRouter>
