@@ -1,19 +1,52 @@
 import axios from "axios";
-import React, { useContext, useEffect} from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import logoUkm from "../assets/logo_ukm.png"
 import { GlobalContext } from "../context/GlobalContext";
 
 const Login = () => {
-    const {passwordType, togglePasswordVisibility} = useContext(GlobalContext);
-    useEffect(()=>{
-        axios.get("").then((res)=>{console.log(res);})
-    },[])
+    let navigate = useNavigate();
+    const { passwordType, togglePasswordVisibility, API_URL} = useContext(GlobalContext);
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: ""
+    });
+    const handleChange = (event) => {
+        setLoginData({
+            ...loginData,
+            [event.target.name]: event.target.value
+        })
+    }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const { email, password } = loginData;
+            const response = await axios.post(`${API_URL}/login`, { email, password });
+            const { status, token, role } = response.data;
+
+            if(status==="error"){
+                const {err} = response.data;
+                return alert(err)
+            }
+            // Store JWT token in local storage
+            localStorage.setItem('token', token);
+            localStorage.setItem('role', role);
+
+            // Redirect to home page or do something else
+            if (role == "Admin") {
+                navigate(`/admin`);
+            } else if(role == "Member") {
+                navigate(`/`);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <>
             <div className="min-h-screen flex items-center">
                 <div className="bg-white w-1/2 flex flex-row justify-between p-12 items-center rounded-xl mx-auto">
-                    <form className="w-3/5">
+                    <form className="w-3/5" onSubmit={handleSubmit}>
                         <div className="font-poppins text-3xl text-customLightBlue mb-2 font-semibold">
                             Masuk
                         </div>
@@ -23,12 +56,12 @@ const Login = () => {
                         <div className="mb-4">
                             <input
                                 className="appearance-none border-none bg-customGray rounded w-full py-2 px-3 text-sm font-poppins text-customDarkerBlue leading-tight focus:outline-none focus:shadow-outline"
-                                id="email" type="text" placeholder="Alamat email" name="email" />
+                                id="email" type="text" placeholder="Alamat email" onChange={handleChange} name="email" />
                         </div>
                         <div className="mb-3 flex flex-col relative">
                             <input
                                 className="appearance-none border-none bg-customGray rounded w-full py-2 px-3 text-sm font-poppins text-customDarkerBlue leading-tight focus:outline-none focus:shadow-outline"
-                                id="password" type={passwordType} placeholder="Kata sandi" name="password" />
+                                id="password" type={passwordType} onChange={handleChange} placeholder="Kata sandi" name="password" />
                             <button type="button"
                                 className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-700 hover:text-gray-900 focus:outline-none"
                                 onClick={togglePasswordVisibility}>
@@ -47,7 +80,7 @@ const Login = () => {
                                     for="privacy"
                                 >
                                     Ingat saya
-                                </label>    
+                                </label>
                             </div>
                             <Link className="mb-1.5" to="">
                                 <span className="font-poppins text-xs text-customLightBlue underline leading-none">Lupa kata sandi</span>
@@ -62,13 +95,13 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="flex items-center justify-center w-full mb-2">
-                           <span className="font-poppins text-xs text-customDarkerBlue">Belum punya akun?</span>           
+                            <span className="font-poppins text-xs text-customDarkerBlue">Belum punya akun?</span>
                             <span className="ml-1 font-poppins text-xs text-customLightBlue"><Link to="/register">Buat akun</Link></span>
-                           
+
                         </div>
                     </form>
                     <div className="ml-10 h-60">
-                        <img src={logoUkm} className="h-full"/>
+                        <img src={logoUkm} className="h-full" />
                     </div>
                 </div>
             </div>

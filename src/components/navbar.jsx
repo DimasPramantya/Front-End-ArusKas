@@ -1,11 +1,22 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logout_logo from "../assets/logout.png"
 import logoUkm from "../assets/logo_ukm.png"
 import { GlobalContext } from "../context/GlobalContext";
 
 const Navbar = () => {
+    const { setUserData, setUserBills, userData} = useContext(GlobalContext)
+    const navigate = useNavigate()
+    const handleLogout = ()=>{
+        setUserData({
+            username: "",
+            division: ""
+        });
+        setUserBills([]);
+        localStorage.clear();
+        return navigate("/login")
+    }
     return (
         <>
             <nav className="bg-customLightBlue">
@@ -19,14 +30,16 @@ const Navbar = () => {
                         <div className="flex items-center">
                             <div className="flex flex-col justify-end mr-7">
                                 <div className="text-white font-poppins font-bold">
-                                    Dimas Pramantya
+                                    {userData.username}
                                 </div>
                                 <div className="text-right text-white font-poppins font-semibold text-xs">
-                                    Kerohanian
+                                    {userData.division}
                                 </div>
                             </div>
                             <div>
-                                <img src={logout_logo}/>
+                                <button onClick={handleLogout}>
+                                    <img src={logout_logo}/>
+                                </button>
                             </div>
                         </div>
                     </div>

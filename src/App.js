@@ -25,9 +25,9 @@ function App() {
         <Routes>
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/historyPembayaran' element={<HistoryPembayaran/>}/>
+          <Route path='/historyPembayaran/:billId' element={<HistoryPembayaran/>}/>
           <Route path='/' element={<UserDashboard/>}/>
-          <Route path='/pembayaran/1' element={<Pembayaran/>}/>
+          <Route path='/pembayaran/:billId' element={<Pembayaran/>}/>
           <Route path='/admin/' element={<AdminDashboard/>}/>
           <Route path='/admin/pembukuan' element={<Pembukuan/>}/>
           <Route path='/admin/event' element={<EventPage/>}/>
