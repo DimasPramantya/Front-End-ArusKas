@@ -37,7 +37,6 @@ const UserDashboard = () => {
         fetchData();
     }, []);
     useEffect(() => {
-        console.log(userBills);
         let tempTagihan = [];
         let tempHistoryPembayaran = [];
         for (let i = 0; i < userBills.length; i++) {
@@ -50,7 +49,6 @@ const UserDashboard = () => {
         }
         setTagihan([...tempTagihan]);
         setHistoryPembayaran([...tempHistoryPembayaran]);
-        console.log(tempTagihan, tempHistoryPembayaran);
     }, [userBills]);
     if (!token) {
         return null;

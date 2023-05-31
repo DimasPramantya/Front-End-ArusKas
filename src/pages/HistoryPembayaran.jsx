@@ -72,7 +72,9 @@ const HistoryPembayaran = () => {
                         <h1 className="text-xs font-poppins font-semibold">Bukti</h1>
                         <div className="flex gap-x-2 items-center">
                             <img src={logoFile} className="w-5" />
-                            <span className="text-xs font-poppins text-customBlue">bukti.jpg</span>
+                            <Link to={`${userBills[0].payment.proof}`}>
+                                <span className="text-xs font-poppins text-customBlue">bukti.jpg</span>
+                            </Link>
                         </div>
                     </div>
                     <Link to='/'>

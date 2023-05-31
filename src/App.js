@@ -31,7 +31,7 @@ function App() {
           <Route path='/admin/' element={<AdminDashboard/>}/>
           <Route path='/admin/pembukuan' element={<Pembukuan/>}/>
           <Route path='/admin/event' element={<EventPage/>}/>
-          <Route path='/admin/event/1' element={<DetailEvent/>}/>
+          <Route path='/admin/event/:eventId' element={<DetailEvent/>}/>
         </Routes>
       </GlobalProvider>
     </BrowserRouter>

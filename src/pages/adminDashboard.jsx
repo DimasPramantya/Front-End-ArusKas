@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import StatusUnpaid from "../components/statusUnpaid";
+import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
     const [userPaymentData, setUserPaymentData] = useState({});
@@ -58,7 +59,8 @@ const AdminDashboard = () => {
                     },
                 });
                 const { username, paymentData, currBalance } = response.data;
-                setCashBalance({currBalance});
+                console.log(response.data);
+                setCashBalance(currBalance);
                 setUserData({ username });
                 setUserPaymentData([...paymentData])
             } catch (error) {
@@ -66,7 +68,7 @@ const AdminDashboard = () => {
             }
         }
         fetchData();
-    }, [handleSubmit])
+    }, [])
     return (
         <>
             <AdminNavbar />
@@ -106,7 +108,9 @@ const AdminDashboard = () => {
                                             <img src={logoAcc} className='mr-2 w-6 h-6' />
                                         )}
                                         <span className='font-poppins font-semibold text-customDarkerBlue'>
-                                            {array.bill.name}
+                                            <Link to={``}>
+                                                {array.bill.name}
+                                            </Link>
                                         </span>
                                     </div>
                                     <div className="p-3 pl-0 break-words bg-white">
@@ -135,18 +139,22 @@ const AdminDashboard = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-12">
-                    <div className="bg-customBlue w-92 py-4 rounded-xl flex justify-center gap-x-6">
+                    <div className="bg-customBlue w-92 py-4 px-2 rounded-xl flex justify-center gap-x-6">
                         <div className="rounded-xl bg-white p-3 flex flex-col">
-                            <h1 className="text-customBlue font-semibold font-poppins">{cashBalance.name}</h1>
-                            <h1 className="text-customDarkerBlue font-semibold font-poppins">{cashBalance.ammount}</h1>
+                            <h1 className="text-customBlue text-sm font-semibold font-poppins">{cashBalance.name}</h1>
+                            <h1 className="text-customDarkerBlue mt-1 text-sm font-semibold font-poppins">Rp {cashBalance.ammount}</h1>
                         </div>
                         <div className="flex flex-col justify-between items-center">
-                            <img src={logoEvent} className="w-13" />
-                            <span className="font-poppins text-white font-semibold">Event</span>
+                            <Link to="/admin/event">
+                                <img src={logoEvent} className="w-11" />
+                            </Link>
+                            <span className="font-poppins text-white text-sm font-semibold">Event</span>
                         </div>
                         <div className="flex flex-col justify-between items-center">
-                            <img src={logoRiwayat} className="w-13" />
-                            <span className="font-poppins text-white font-semibold">Riwayat</span>
+                            <Link to="/admin/event">
+                                <img src={logoRiwayat} className="w-11" />
+                            </Link>
+                            <span className="font-poppins text-white text-sm font-semibold">Riwayat</span>
                         </div>
                     </div>
                     <div className="bg-white p-6 rounded-xl">
