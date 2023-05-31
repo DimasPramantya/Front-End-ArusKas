@@ -17,6 +17,7 @@ export const GlobalProvider = (props)=>{
         username: "",
         division: "",   
     });
+    const [isLoading, setIsLoading] = useState(false);
     const [userBills, setUserBills] = useState({
         id: "",
         name: "",
@@ -71,7 +72,7 @@ export const GlobalProvider = (props)=>{
             {
                 passwordType, setPasswordType, togglePasswordVisibility, API_URL, authMemberLogin
                 ,userData, setUserData, userBills, setUserBills, tagihan, setTagihan, historyPembayaran, setHistoryPembayaran,
-                authAdminLogin
+                authAdminLogin, isLoading, setIsLoading
             }
         }>
             {props.children}

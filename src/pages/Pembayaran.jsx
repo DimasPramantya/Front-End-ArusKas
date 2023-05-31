@@ -1,12 +1,14 @@
 import Navbar from "../components/navbar";
+import LoadingAnimation from "../components/loadingAnimation";
 import logoUpload from "../assets/upload.png"
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Pembayaran = () => {
-    const { authMemberLogin, API_URL, setUserData, userData} = useContext(GlobalContext);
+    const { authMemberLogin, API_URL, setUserData, isLoading, setIsLoading} = useContext(GlobalContext);
+    const navigate = useNavigate();
     const [userBills, setUserBills] = useState({
         id: "",
         name: "",
@@ -40,7 +42,7 @@ const Pembayaran = () => {
     }
     const handleSubmit = async(event)=>{
         event.preventDefault();
-        //set loader to true
+        setIsLoading(true);
         try {
             const {accName, method, image} = payment;
             const response = await axios.put(`${API_URL}/pay-bill/${billId}`, {accName, method, image}, {
@@ -48,12 +50,14 @@ const Pembayaran = () => {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 }, 
-            })  
+            })
+            alert(response.data.message);
         } catch (error) {
             console.log(error);
         } finally{
-            //set loader false
+            setIsLoading(false);
         }
+        navigate(`/`);
     }
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -83,6 +87,7 @@ const Pembayaran = () => {
     return (
         <>
             <Navbar />
+            {isLoading && <LoadingAnimation />}
             <main className="flex justify-center w-full mt-10 bg-customGray">
                 <div className="rounded-xl bg-white w-1/3 flex flex-col  p-9 gap-y-5">
                     <div className="mx-auto font-poppins text-xl font-semibold text-customLightBlue">

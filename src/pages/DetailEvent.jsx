@@ -1,4 +1,5 @@
 import AdminNavbar from "../components/adminNavbar";
+import LoadingAnimation from "../components/loadingAnimation";
 import logoBack from "../assets/back.png"
 import logoFile from "../assets/file.png"
 import { Link, useParams } from "react-router-dom";
@@ -8,7 +9,7 @@ import axios from "axios";
 
 const DetailEvent = () => {
     const {eventId} = useParams();
-    const { API_URL, authAdminLogin, setUserData } = useContext(GlobalContext);
+    const { API_URL, authAdminLogin, setUserData, isLoading, setIsLoading } = useContext(GlobalContext);
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     const [newExpenditure, setNewExpenditure] = useState({ name: "", cashOut: 0, image: null });
@@ -29,6 +30,7 @@ const DetailEvent = () => {
     const [eventName, setEventName] = useState("")
     const handleSubmit = async(event) => {
         event.preventDefault();
+        setIsLoading(false);
         try {
             const { name, cashOut, image } = newExpenditure;
             const response = await axios.post(`${API_URL}/admin/event/create-expenditure/${eventId}`, {name,cashOut,image}, {
@@ -40,7 +42,9 @@ const DetailEvent = () => {
             const {message} = response.data;
             alert(message)
         } catch (error) {
-
+            console.log(error);
+        }finally{
+            setIsLoading(false);
         }
     }
     useEffect(() => {
