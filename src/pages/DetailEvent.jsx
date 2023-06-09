@@ -2,12 +2,13 @@ import AdminNavbar from "../components/adminNavbar";
 import LoadingAnimation from "../components/loadingAnimation";
 import logoBack from "../assets/back.png"
 import logoFile from "../assets/file.png"
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import axios from "axios";
 
 const DetailEvent = () => {
+    const navigate = useNavigate();
     const {eventId} = useParams();
     const { API_URL, authAdminLogin, setUserData, isLoading, setIsLoading } = useContext(GlobalContext);
     const token = localStorage.getItem('token');
@@ -30,7 +31,7 @@ const DetailEvent = () => {
     const [eventName, setEventName] = useState("")
     const handleSubmit = async(event) => {
         event.preventDefault();
-        setIsLoading(false);
+        setIsLoading(true);
         try {
             const { name, cashOut, image } = newExpenditure;
             const response = await axios.post(`${API_URL}/admin/event/create-expenditure/${eventId}`, {name,cashOut,image}, {
@@ -46,6 +47,7 @@ const DetailEvent = () => {
         }finally{
             setIsLoading(false);
         }
+        navigate(`/admin/event/${eventId}`)
     }
     useEffect(() => {
         authAdminLogin(role);
@@ -69,6 +71,7 @@ const DetailEvent = () => {
     return (
         <>
             <AdminNavbar />
+            {isLoading && <LoadingAnimation />}
             <main className="mt-12 flex justify-center gap-x-12 font-poppins">
                 <div className="bg-white w-5/12 rounded-xl flex flex-col p-5 gap-y-5">
                     <div className="flex">
@@ -122,7 +125,7 @@ const DetailEvent = () => {
                                     id="nominalTagihan" type="number" placeholder="Input Nominal" name="cashOut" />
                             </div>
                             <div className="mt-3 flex flex-col gap-y-2">
-                                <label className="text-sm font-poppins text-customLightBlue font-semibold">Nama Tagihan</label>
+                                <label className="text-sm font-poppins text-customLightBlue font-semibold">Bukti Pengeluaran</label>
                                 <input type="file" accept="image/*" id="files" class="hidden" name="image" onChange={handleChange} />
                                 <label for="files" className="appearance-none border-none bg-customGray rounded w-full py-2 px-3 text-xs font-poppins text-customDarkerBlue leading-tight focus:outline-none focus:shadow-outline text-opacity-80">'Select Image</label>
                             </div>

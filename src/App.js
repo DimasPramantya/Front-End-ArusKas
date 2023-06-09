@@ -16,6 +16,8 @@ import AdminDashboard from './pages/adminDashboard';
 import Pembukuan from './pages/Pembukuan';
 import EventPage from './pages/EventPage';
 import DetailEvent from './pages/DetailEvent';
+import TambahDana from './pages/TambahDana';
+import VerifyPayment from './pages/VerifyPayment';
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
           <Route path='/' element={<UserDashboard/>}/>
           <Route path='/pembayaran/:billId' element={<Pembayaran/>}/>
           <Route path='/admin/' element={<AdminDashboard/>}/>
+          <Route path='/admin/user-payment/:paymentId' element={<VerifyPayment/>}/>
+          <Route path='/admin/tambah-dana' element={<TambahDana/>}/>
           <Route path='/admin/pembukuan' element={<Pembukuan/>}/>
           <Route path='/admin/event' element={<EventPage/>}/>
           <Route path='/admin/event/:eventId' element={<DetailEvent/>}/>

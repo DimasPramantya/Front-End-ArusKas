@@ -4,7 +4,7 @@ import logoFilter from "../assets/Filter.png"
 import logoProses from '../assets/warning.png'
 import logoTolak from '../assets/declined.png'
 import logoEvent from '../assets/event.png'
-import logoRiwayat from '../assets/riwayat.png'
+import logoTambah from '../assets/tambahDana.png'
 import StatusAcc from '../components/statusAcc'
 import StatusProcess from '../components/statusProcess'
 import StatusTolak from '../components/statusTolak'
@@ -13,9 +13,10 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import StatusUnpaid from "../components/statusUnpaid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
     const [userPaymentData, setUserPaymentData] = useState({});
     const { API_URL, authAdminLogin, userData, setUserData } = useContext(GlobalContext);
     const token = localStorage.getItem('token');
@@ -48,6 +49,7 @@ const AdminDashboard = () => {
         } catch (error) {
             console.log(error);
         }
+        navigate("/admin");
     }
     useEffect(() => {
         authAdminLogin(role)
@@ -108,7 +110,7 @@ const AdminDashboard = () => {
                                             <img src={logoAcc} className='mr-2 w-6 h-6' />
                                         )}
                                         <span className='font-poppins font-semibold text-customDarkerBlue'>
-                                            <Link to={``}>
+                                            <Link to={`/admin/user-payment/${payment.payment.id}`}>
                                                 {array.bill.name}
                                             </Link>
                                         </span>
@@ -151,10 +153,10 @@ const AdminDashboard = () => {
                             <span className="font-poppins text-white text-sm font-semibold">Event</span>
                         </div>
                         <div className="flex flex-col justify-between items-center">
-                            <Link to="/admin/event">
-                                <img src={logoRiwayat} className="w-11" />
+                            <Link to="/admin/tambah-dana">
+                                <img src={logoTambah} className="w-11" />
                             </Link>
-                            <span className="font-poppins text-white text-sm font-semibold">Riwayat</span>
+                            <span className="font-poppins text-white text-sm font-semibold break-words">Dana</span>
                         </div>
                     </div>
                     <div className="bg-white p-6 rounded-xl">

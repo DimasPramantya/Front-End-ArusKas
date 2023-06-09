@@ -4,9 +4,10 @@ import folder from "../assets/folder.png"
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EventPage = () => {
+    const navigate = useNavigate()
     const { API_URL, authAdminLogin, setUserData } = useContext(GlobalContext);
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -39,6 +40,7 @@ const EventPage = () => {
         } catch (error) {
             console.log(error);
         }
+        navigate("/admin/event")
     }
     useEffect(() => {
         authAdminLogin(role);
